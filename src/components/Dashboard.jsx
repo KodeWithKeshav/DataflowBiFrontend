@@ -5,7 +5,7 @@ import ChartCard from './ChartCard'
 import { useSelector } from 'react-redux'
 import RightSideBar from './RightSideBar'
 import { analyseSelection } from '../api/api'
-
+import { createAnalysisRequest } from '../models/AnalysisRequestBody'
 
 
 export default function Dashboard(){
@@ -17,28 +17,20 @@ export default function Dashboard(){
 
 
   const columns = activeTable.columns || [];
-  const numericCols =  columns.filter(column=> column.logicalType === 'NUMBER');
-  const categoricalCols = columns.filter(column=> column.logicalType === 'STRING');
-
 
 
   function toggleCol(columnName){
     if(selectedCols.includes(columnName)){
-      setSelectedCols(prev=>prev.filter(column=>column.columnName !== columnName))
+      setSelectedCols(prev=>prev.filter(column=>column !== columnName))
     }else{
       setSelectedCols(prev=>[...prev,columnName])
     }
   }
 
   async function handleApplySelection(){
-    const analysisBody = {
-      tableName: activeTable.tableName,
-      dimensions: categoricalCols.map(column=>column.columnName),
-      measureColumn: numericCols[0].columnName,
-      aggregationType: 'COUNT'
-    }
-
-    const data = await analyseSelection(analysisBody);
+    const requestBody = createAnalysisRequest(activeTable,columns,selectedCols)
+    console.log("request body: ",requestBody)
+    const data = await analyseSelection(requestBody);
     setAnalyzedData(data);
     console.log(data)
   }
