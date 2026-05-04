@@ -1,0 +1,12 @@
+.liquid-ether-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  overflow: hidden;
+  width: 100vw;
+  height: 100vh;
+  touch-action: none;
+  z-index: -1; /* Place it behind everything */
+  opacity: 0.15; /* Make it subtle */
+  pointer-events: none; /* Let clicks pass through to the dashboard */
+}
