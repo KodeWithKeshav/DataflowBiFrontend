@@ -4,7 +4,9 @@ import { fetchTableRows, fetchTables } from "./../api/api";
 export const fetchTableThunk = () => {
   return async (dispatch) => {
     const tables = await fetchTables();
-    dispatch(addTables(tables));
+    if (tables) {
+      dispatch(addTables(tables));
+    }
   };
 };
 
@@ -12,6 +14,8 @@ export const fetchTableRowsThunk = (tableName) => {
   return async (dispatch) => {
     const tableRows = await fetchTableRows(tableName);
     console.log(tableRows);
-    dispatch(setActiveTableRows(tableRows));
+    if (tableRows) {
+      dispatch(setActiveTableRows(tableRows));
+    }
   };
 };

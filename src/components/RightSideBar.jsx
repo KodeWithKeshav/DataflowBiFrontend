@@ -8,22 +8,38 @@ function RightSideBar({suggestedCharts}) {
 
     // 1. Check if data exists and is not empty
     if (!selectedTableData || selectedTableData.length === 0) {
-        return <div style={{ padding: 20, textAlign: 'center' }}>Select a table to preview data</div>;
+        return (
+            <div className="chart-card animate-fade-in">
+                <div className="empty-state">
+                    <div className="empty-state-icon">
+                        <span className="material-symbols-rounded">table_view</span>
+                    </div>
+                    <div className="empty-state-title">No Table Selected</div>
+                    <div className="empty-state-desc">Select a table from the sidebar to preview its data here.</div>
+                </div>
+            </div>
+        );
     }
 
     // 2. Extract column names from the first object keys
     const columns = Object.keys(selectedTableData[0]);
 
     return (
-        <div>
-            <div className="chart-card" style={{ marginBottom: 16 }}>
-                <div style={{ fontWeight: 700, marginBottom: 8 }}>Preview Data</div>
-                <div style={{ maxHeight: 280, overflow: 'auto' }}>
-                    <table style={{ width: '100%', borderCollapse: 'collapse' }}>
-                        <thead style={{ position: 'sticky', top: 0, background: 'white' }}>
+        <div className="animate-fade-in">
+            <div className="chart-card" style={{ marginBottom: 16, height: 380, display: 'flex', flexDirection: 'column' }}>
+                <div className="chart-card-header">
+                    <div className="chart-card-title">
+                        <span className="material-symbols-rounded" style={{fontSize:18, verticalAlign:'middle', marginRight:6, color:'var(--blue-500)'}}>preview</span>
+                        Preview Data
+                    </div>
+                    <span className="section-badge">{selectedTableData.length} rows</span>
+                </div>
+                <div className="data-table-wrap" style={{ flex: 1, height: 'auto', maxHeight: 'none' }}>
+                    <table className="data-table">
+                        <thead>
                             <tr>
                                 {columns.map(c => (
-                                    <th key={c} style={{ textAlign: 'left', padding: 6, fontSize: 12, color: 'var(--muted)', textTransform: 'capitalize' }}>
+                                    <th key={c}>
                                         {c}
                                     </th>
                                 ))}
@@ -31,10 +47,10 @@ function RightSideBar({suggestedCharts}) {
                         </thead>
                         <tbody>
                             {selectedTableData.map((row, idx) => (
-                                <tr key={idx} style={{ borderTop: '1px solid #f1f6ff' }}>
+                                <tr key={idx}>
                                     {columns.map(colName => (
-                                        <td key={colName} style={{ padding: 6, fontSize: 13 }}>
-                                            {row[colName] === null ? '-' : String(row[colName])}
+                                        <td key={colName}>
+                                            {row[colName] === null ? '—' : String(row[colName])}
                                         </td>
                                     ))}
                                 </tr>
@@ -44,10 +60,27 @@ function RightSideBar({suggestedCharts}) {
                 </div>
             </div>
 
-            <div className="chart-card">
-                <div style={{ fontWeight: 700, marginBottom: 8 }}>Chart Suggestions</div>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-                    {suggestedCharts && suggestedCharts.map(chart=> <button key={chart} className="select">{chart}</button>)}
+            <div className="chart-card" style={{ height: 220, display: 'flex', flexDirection: 'column' }}>
+                <div className="chart-card-header">
+                    <div className="chart-card-title">
+                        <span className="material-symbols-rounded" style={{fontSize:18, verticalAlign:'middle', marginRight:6, color:'var(--blue-500)'}}>auto_awesome</span>
+                        Chart Suggestions
+                    </div>
+                </div>
+                <div className="suggestion-pills" style={{ flex: 1, overflowY: 'auto' }}>
+                    {suggestedCharts && suggestedCharts.length > 0 ? (
+                        suggestedCharts.map(chart=> (
+                            <button key={chart} className="suggestion-pill">
+                                <span className="material-symbols-rounded">insights</span>
+                                {chart}
+                            </button>
+                        ))
+                    ) : (
+                        <div style={{ fontSize: 13, color: 'var(--text-muted)', textAlign: 'center', marginTop: 24, padding: '0 16px' }}>
+                            <span className="material-symbols-rounded" style={{ fontSize: 24, display: 'block', marginBottom: 8, opacity: 0.5 }}>magic_button</span>
+                            Select columns and click Apply to generate AI chart suggestions.
+                        </div>
+                    )}
                 </div>
             </div>
         </div>
