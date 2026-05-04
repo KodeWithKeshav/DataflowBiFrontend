@@ -1,22 +1,30 @@
-import React from 'react'
-import dummy from '../data/dummy'
+import React, { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import {setActiveTable} from './../store/tableReducer'
+import { fetchTableRowsThunk } from '../store/tableThunkCreators';
+
 
 export default function Sidebar(){
-  const [tables, setTables] = React.useState(Object.keys(dummy))
-  const [active, setActive] = React.useState(tables[0])
+  const [active, setActive] = React.useState()
+  
+  const tables = useSelector(state=>state.table.tables);
+  const activeTable = useSelector(state=>state.table.activeTable);
+  const dispatch = useDispatch();
 
-  React.useEffect(()=>{
-    // broadcast selected table via custom event for simplicity
-    window.dispatchEvent(new CustomEvent('df.table.select',{detail:active}))
-  },[active])
+  console.log(activeTable)
+
+  const handleTableSelection = (table)=>{
+      dispatch(setActiveTable(table));
+      dispatch(fetchTableRowsThunk(table.tableName))
+  }
 
   return (
     <aside className="sidebar">
       <h3>Tables</h3>
       <div className="table-list">
-        {tables.map(t=> (
-          <div key={t} className={"table-item "+(t===active? 'active':'')} onClick={()=>setActive(t)}>
-            {t}
+        {tables &&  tables.map(table=> (
+          <div key={table.tableName} onClick={()=>handleTableSelection(table)} className={"table-item "+(activeTable && activeTable.tableName === table.tableName? 'active':'')} >
+            {table.tableName}
           </div>
         ))}
       </div>

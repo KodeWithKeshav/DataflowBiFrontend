@@ -35,6 +35,10 @@ body{margin:0;background:var(--bg);color:#0f1724}
 
 .footer-note{color:var(--muted);font-size:13px;margin-top:12px}
 
+.apply-button{
+  
+}
+
 @media(max-width:900px){
   .main-area{flex-direction:column}
   .sidebar{width:100%;height:auto}
