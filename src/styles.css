@@ -1,0 +1,41 @@
+:root{
+  --bg:#f6fbff;
+  --panel:#ffffff;
+  --blue-600:#0b61d6;
+  --blue-500:#1473e6;
+  --blue-200:#cfe7ff;
+  --muted:#6b778c;
+  --card-shadow: 0 6px 18px rgba(11,97,214,0.08);
+  font-family: Inter, system-ui, Arial, sans-serif;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:#0f1724}
+.app-root{min-height:100vh;display:flex;flex-direction:column}
+.main-area{display:flex;gap:20px;padding:20px;align-items:flex-start}
+.content-area{flex:1}
+
+.header{background:linear-gradient(90deg,var(--blue-600),var(--blue-500));color:white;padding:16px 24px;display:flex;align-items:center;justify-content:space-between}
+.brand{display:flex;gap:12px;align-items:center;font-weight:700}
+.brand .logo{width:40px;height:40px;background:var(--panel);border-radius:8px;display:flex;align-items:center;justify-content:center;color:var(--blue-600);font-weight:800}
+
+.sidebar{width:260px;background:var(--panel);padding:16px;border-radius:10px;box-shadow:var(--card-shadow);height:calc(100vh - 96px);overflow:auto}
+.sidebar h3{margin:6px 0 12px 0}
+.table-list{display:flex;flex-direction:column;gap:8px}
+.table-item{padding:10px;border-radius:8px;cursor:pointer;color:var(--blue-600);border:1px solid transparent}
+.table-item.active{background:var(--blue-200);border-color:var(--blue-200)}
+
+.dashboard{display:grid;grid-template-columns:repeat(12,1fr);gap:16px}
+.kpi-row{grid-column:1/13;display:flex;gap:16px}
+.kpi-card{flex:1;background:var(--panel);padding:16px;border-radius:10px;box-shadow:var(--card-shadow)}
+.charts-row{grid-column:1/13;display:grid;grid-template-columns:2fr 1fr;gap:16px}
+.chart-card{background:var(--panel);padding:12px;border-radius:10px;box-shadow:var(--card-shadow)}
+
+.controls{display:flex;gap:8px;align-items:center;margin-bottom:12px}
+.select, .multiselect{padding:8px;border:1px solid #e6eefb;border-radius:8px}
+
+.footer-note{color:var(--muted);font-size:13px;margin-top:12px}
+
+@media(max-width:900px){
+  .main-area{flex-direction:column}
+  .sidebar{width:100%;height:auto}
+}
