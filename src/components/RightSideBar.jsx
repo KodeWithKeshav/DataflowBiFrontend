@@ -1,10 +1,12 @@
 import React, { useEffect } from 'react';
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import {setChartData,setActiveChart} from './../store/chartReducer'
 
-function RightSideBar({suggestedCharts}) {
+function RightSideBar() {
+    const dispatch = useDispatch();
+
     const selectedTableData = useSelector(state => state.table.activeTableRows);
-
-    
+    const suggestedCharts = useSelector(state => state.chart.suggestedChartTypes);
 
     // 1. Check if data exists and is not empty
     if (!selectedTableData || selectedTableData.length === 0) {
@@ -47,7 +49,7 @@ function RightSideBar({suggestedCharts}) {
             <div className="chart-card">
                 <div style={{ fontWeight: 700, marginBottom: 8 }}>Chart Suggestions</div>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-                    {suggestedCharts && suggestedCharts.map(chart=> <button key={chart} className="select">{chart}</button>)}
+                    {suggestedCharts && suggestedCharts.map(chart=> <button key={chart} onClick={()=>dispatch(setActiveChart(chart))} className="select">{chart}</button>)}
                 </div>
             </div>
         </div>

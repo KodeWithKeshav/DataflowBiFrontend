@@ -11,7 +11,6 @@ export default function Sidebar(){
   const activeTable = useSelector(state=>state.table.activeTable);
   const dispatch = useDispatch();
 
-  console.log(activeTable)
 
   const handleTableSelection = (table)=>{
       dispatch(setActiveTable(table));

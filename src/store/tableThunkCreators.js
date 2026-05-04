@@ -11,7 +11,6 @@ export const fetchTableThunk = () => {
 export const fetchTableRowsThunk = (tableName) => {
   return async (dispatch) => {
     const tableRows = await fetchTableRows(tableName);
-    console.log(tableRows);
     dispatch(setActiveTableRows(tableRows));
   };
 };

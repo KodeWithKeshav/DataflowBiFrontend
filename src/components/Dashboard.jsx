@@ -1,19 +1,23 @@
 import React, { useState } from 'react'
 import dummy from '../data/dummy'
 // import KPICard from './KPICard'
-import ChartCard from './ChartCard'
-import { useSelector } from 'react-redux'
+import ChartCard from './AnalysisChartRender'
+import { useDispatch, useSelector } from 'react-redux'
 import RightSideBar from './RightSideBar'
 import { analyseSelection } from '../api/api'
 import { createAnalysisRequest } from '../models/AnalysisRequestBody'
+import AnalysisChartRenderer from './AnalysisChartRender'
+import { setChartData } from '../store/chartReducer'
 
 
 export default function Dashboard(){
   const [selectedCols, setSelectedCols] = React.useState([])
   const [chartType, setChartType] = React.useState('bar')
-  const [analyzedData, setAnalyzedData] = useState({});
+  // const [analyzedData, setAnalyzedData] = useState({});
+  const dispatch = useDispatch();
 
   const activeTable = useSelector(state=>state.table.activeTable)
+  const analyzedData = useSelector(state=>state.chart);
 
 
   const columns = activeTable.columns || [];
@@ -31,7 +35,7 @@ export default function Dashboard(){
     const requestBody = createAnalysisRequest(activeTable,columns,selectedCols)
     console.log("request body: ",requestBody)
     const data = await analyseSelection(requestBody);
-    setAnalyzedData(data);
+    dispatch(setChartData({...data}))
     console.log(data)
   }
 
@@ -64,11 +68,11 @@ export default function Dashboard(){
               ))}
             </div>
           </div>
-
+          <AnalysisChartRenderer />
           {/* <ChartCard title={`${measure||'Measure'} by ${dim||'Dimension'}`} data={chartData} xKey={dim} yKey={measure} type={chartType} /> */}
         </div>
 
-        <RightSideBar suggestedCharts={analyzedData.suggestedChartTypes}  />
+        <RightSideBar  />
       </div>
     </section>
   )
