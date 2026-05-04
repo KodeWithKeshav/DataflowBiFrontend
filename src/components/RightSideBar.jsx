@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { useSelector } from "react-redux";
+import BorderGlow from './BorderGlow';
 
 function RightSideBar({suggestedCharts}) {
     const selectedTableData = useSelector(state => state.table.activeTableRows);
@@ -9,7 +10,7 @@ function RightSideBar({suggestedCharts}) {
     // 1. Check if data exists and is not empty
     if (!selectedTableData || selectedTableData.length === 0) {
         return (
-            <div className="chart-card animate-fade-in">
+            <BorderGlow className="animate-fade-in" animated={true}>
                 <div className="empty-state">
                     <div className="empty-state-icon">
                         <span className="material-symbols-rounded">table_view</span>
@@ -17,7 +18,7 @@ function RightSideBar({suggestedCharts}) {
                     <div className="empty-state-title">No Table Selected</div>
                     <div className="empty-state-desc">Select a table from the sidebar to preview its data here.</div>
                 </div>
-            </div>
+            </BorderGlow>
         );
     }
 
@@ -26,7 +27,7 @@ function RightSideBar({suggestedCharts}) {
 
     return (
         <div className="animate-fade-in">
-            <div className="chart-card" style={{ marginBottom: 16, height: 380, display: 'flex', flexDirection: 'column' }}>
+            <BorderGlow style={{ marginBottom: 16, height: 380 }}>
                 <div className="chart-card-header">
                     <div className="chart-card-title">
                         <span className="material-symbols-rounded" style={{fontSize:18, verticalAlign:'middle', marginRight:6, color:'var(--blue-500)'}}>preview</span>
@@ -58,9 +59,9 @@ function RightSideBar({suggestedCharts}) {
                         </tbody>
                     </table>
                 </div>
-            </div>
+            </BorderGlow>
 
-            <div className="chart-card" style={{ height: 220, display: 'flex', flexDirection: 'column' }}>
+            <BorderGlow style={{ height: 220 }}>
                 <div className="chart-card-header">
                     <div className="chart-card-title">
                         <span className="material-symbols-rounded" style={{fontSize:18, verticalAlign:'middle', marginRight:6, color:'var(--blue-500)'}}>auto_awesome</span>
@@ -82,7 +83,7 @@ function RightSideBar({suggestedCharts}) {
                         </div>
                     )}
                 </div>
-            </div>
+            </BorderGlow>
         </div>
     );
 }
