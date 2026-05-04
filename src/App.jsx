@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import Header from './components/Header'
 import Sidebar from './components/Sidebar'
 import Dashboard from './components/Dashboard'
+import ClickSpark from './components/ClickSpark'
 import { useDispatch } from 'react-redux'
 import { fetchTableThunk } from './store/tableThunkCreators'
 
@@ -35,16 +36,18 @@ export default function App(){
   },[]);
   
   return (
-    <ErrorBoundary>
-      <div className="app-root">
-        <Header />
-        <div className="main-area">
-          <Sidebar />
-          <main className="content-area">
-            <Dashboard />
-          </main>
+    <ClickSpark sparkColor="#82bfff" sparkSize={6} sparkRadius={20} sparkCount={12} duration={500}>
+      <ErrorBoundary>
+        <div className="app-root">
+          <Header />
+          <div className="main-area">
+            <Sidebar />
+            <main className="content-area">
+              <Dashboard />
+            </main>
+          </div>
         </div>
-      </div>
-    </ErrorBoundary>
+      </ErrorBoundary>
+    </ClickSpark>
   )
 }

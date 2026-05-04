@@ -5,13 +5,9 @@ import { fetchTableRowsThunk } from '../store/tableThunkCreators';
 
 
 export default function Sidebar() {
-  const [active, setActive] = React.useState()
-
   const tables = useSelector(state => state.table.tables);
   const activeTable = useSelector(state => state.table.activeTable);
   const dispatch = useDispatch();
-
-  console.log(activeTable)
 
   const handleTableSelection = (table) => {
     dispatch(setActiveTable(table));
