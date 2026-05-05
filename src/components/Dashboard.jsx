@@ -1,10 +1,10 @@
 import React from 'react'
 import dummy from '../data/dummy'
-// import KPICard from './KPICard'
 import { useSelector } from 'react-redux'
 import RightSideBar from './RightSideBar'
 import AnalysisChartRenderer from './AnalysisChartRender'
 import BorderGlow from './BorderGlow'
+import KPIRow from './KPIRow'
 
 
 export default function Dashboard(){
@@ -31,10 +31,12 @@ export default function Dashboard(){
 
   return (
     <section className="dashboard animate-fade-in">
+      {/* KPI Cards Row */}
+      <KPIRow />
+
       <div className="charts-row">
         <div>
           <AnalysisChartRenderer />
-          {/* <ChartCard title={`${measure||'Measure'} by ${dim||'Dimension'}`} data={chartData} xKey={dim} yKey={measure} type={chartType} /> */}
         </div>
 
         <RightSideBar  />

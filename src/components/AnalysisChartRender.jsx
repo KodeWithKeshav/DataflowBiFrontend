@@ -13,7 +13,7 @@ import DonutChartComponent from "./charts/DonutChartComponent";
 
 export default function AnalysisChartRenderer() {
   const activeTypes = useSelector(state => state.chart.activeCharts || []);
-  
+
   const CHART_MAP = {
     'BAR': BarChartComponent,
     'STACKED_BAR': StackedBarChartComponent,
@@ -29,7 +29,7 @@ export default function AnalysisChartRenderer() {
   if (!activeTypes || activeTypes.length === 0) {
     return (
       <BorderGlow animated={true}>
-        <div className="empty-state" style={{minHeight: 200}}>
+        <div className="empty-state" style={{ minHeight: 200 }}>
           <div className="empty-state-icon">
             <span className="material-symbols-rounded">bar_chart</span>
           </div>
@@ -42,24 +42,32 @@ export default function AnalysisChartRenderer() {
 
   return (
     <BorderGlow style={{ marginTop: 16 }}>
-      <div style={{ maxHeight: '720px', overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: 16, padding: 8 }}>
-        {activeTypes.map((type) => {
+      <div style={{ maxHeight: '800px', overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: 0, padding: '8px 8px 0' }}>
+        {activeTypes.map((type, idx) => {
           const SelectedChart = CHART_MAP[type?.toUpperCase()] || null;
+          const isLast = idx === activeTypes.length - 1;
           return (
-            <div key={type}>
+            <div
+              key={type}
+              style={{
+                paddingBottom: isLast ? 8 : 24,
+                marginBottom: isLast ? 0 : 24,
+                borderBottom: isLast ? 'none' : '1px solid var(--border-light)',
+              }}
+            >
               <div className="chart-card-header">
                 <div className="chart-card-title">
-                  <span className="material-symbols-rounded" style={{fontSize:18, verticalAlign:'middle', marginRight:6, color:'var(--blue-500)'}}>bar_chart</span>
-                  {type?.replace('_', ' ')}
+                  <span className="material-symbols-rounded" style={{ fontSize: 18, verticalAlign: 'middle', marginRight: 6, color: 'var(--blue-500)' }}>bar_chart</span>
+                  {type?.replace(/_/g, ' ')}
                 </div>
                 <span className="section-badge">
-                  <span className="material-symbols-rounded" style={{fontSize:14}}>insights</span>
+                  <span className="material-symbols-rounded" style={{ fontSize: 14 }}>insights</span>
                   {type}
                 </span>
               </div>
-              <div style={{ height: '320px', width: '100%' }}>
+              <div style={{ height: '360px', width: '100%' }}>
                 {SelectedChart ? <SelectedChart /> : (
-                  <div style={{padding:16}}>Unsupported chart: {type}</div>
+                  <div style={{ padding: 16 }}>Unsupported chart: {type}</div>
                 )}
               </div>
             </div>
