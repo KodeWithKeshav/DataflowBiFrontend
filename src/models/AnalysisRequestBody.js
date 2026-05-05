@@ -3,6 +3,7 @@ export const createAnalysisRequest = (
   columns,
   selectedColumns = [],
   aggregationType = "SUM",
+  filters = [],
 ) => {
   console.log(columns);
   const dimensions = columns
@@ -34,7 +35,7 @@ export const createAnalysisRequest = (
     dimensions: dimensions,
     measureColumns: measureColumns,
     aggregationType,
-    filters: [],
+    filters,
   };
 
   if (dateColumns) {
