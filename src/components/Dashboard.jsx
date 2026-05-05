@@ -6,19 +6,25 @@ import RightSideBar from './RightSideBar'
 import { analyseSelection } from '../api/api'
 import { createAnalysisRequest } from '../models/AnalysisRequestBody'
 import AnalysisChartRenderer from './AnalysisChartRender'
-import { setChartData } from '../store/chartReducer'
+import { setChartData, setActiveCharts } from '../store/chartReducer'
 import BorderGlow from './BorderGlow'
 
 
 export default function Dashboard(){
   const [selectedCols, setSelectedCols] = React.useState([])
-  const [chartType, setChartType] = React.useState('bar')
   const dispatch = useDispatch();
 
   const activeTable = useSelector(state=>state.table.activeTable)
   const analyzedData = useSelector(state=>state.chart);
 
   const columns = (activeTable && activeTable.columns) || [];
+
+  React.useEffect(() => {
+    // clear selected columns and chart data when switching tables
+    setSelectedCols([]);
+    dispatch(setChartData({ data: [], suggestedChartTypes: [], metaData: {} }));
+    dispatch(setActiveCharts([]));
+  }, [activeTable && activeTable.tableName]);
 
 
   function toggleCol(columnName){
@@ -72,11 +78,7 @@ export default function Dashboard(){
                 <span className="material-symbols-rounded" style={{fontSize:18}}>view_column</span>
                 Columns
               </div>
-              <select className="select" value={chartType} onChange={e=>setChartType(e.target.value)}>
-                <option value="bar">Bar</option>
-                <option value="line">Line</option>
-                <option value="pie">Pie</option>
-              </select>
+              
               <button className="btn-primary" onClick={handleApplySelection} style={{ marginLeft: 'auto' }}>
                 <span className="material-symbols-rounded" style={{fontSize:16}}>play_arrow</span>
                 Apply

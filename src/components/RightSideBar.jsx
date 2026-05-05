@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from "react-redux";
-import { setChartData, setActiveChart } from './../store/chartReducer'
+import { toggleActiveChart } from './../store/chartReducer'
 import BorderGlow from './BorderGlow';
 
 function RightSideBar() {
@@ -8,6 +8,7 @@ function RightSideBar() {
 
     const selectedTableData = useSelector(state => state.table.activeTableRows);
     const suggestedCharts = useSelector(state => state.chart.suggestedChartTypes);
+    const activeCharts = useSelector(state => state.chart.activeCharts || []);
 
     // 1. Check if data exists and is not empty
     if (!selectedTableData || selectedTableData.length === 0) {
@@ -73,7 +74,11 @@ function RightSideBar() {
                 <div className="suggestion-pills" style={{ flex: 1, overflowY: 'auto' }}>
                     {suggestedCharts && suggestedCharts.length > 0 ? (
                         suggestedCharts.map(chart=> (
-                            <button key={chart} onClick={()=>dispatch(setActiveChart(chart))} className="suggestion-pill">
+                            <button 
+                                key={chart} 
+                                onClick={()=>dispatch(toggleActiveChart(chart))} 
+                                className={`suggestion-pill ${activeCharts.includes(chart) ? 'active' : ''}`}
+                            >
                                 <span className="material-symbols-rounded">insights</span>
                                 {chart}
                             </button>

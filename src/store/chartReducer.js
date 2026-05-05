@@ -4,7 +4,7 @@ const initialState = {
   data: [],
   suggestedChartTypes: [],
   metaData: {},
-  activeChart: "",
+  activeCharts: [],
 };
 
 const chartSlice = createSlice({
@@ -16,11 +16,18 @@ const chartSlice = createSlice({
       state.suggestedChartTypes = action.payload.suggestedChartTypes;
       state.metaData = action.payload.metaData;
     },
-    setActiveChart: (state, action) => {
-      state.activeChart = action.payload;
+    setActiveCharts: (state, action) => {
+      state.activeCharts = Array.isArray(action.payload) ? action.payload : [];
+    },
+    toggleActiveChart: (state, action) => {
+      const chart = action.payload;
+      if (!chart) return;
+      const idx = state.activeCharts.indexOf(chart);
+      if (idx === -1) state.activeCharts.push(chart);
+      else state.activeCharts.splice(idx, 1);
     },
   },
 });
 
-export const { setChartData, setActiveChart } = chartSlice.actions;
+export const { setChartData, setActiveCharts, toggleActiveChart } = chartSlice.actions;
 export default chartSlice.reducer;
