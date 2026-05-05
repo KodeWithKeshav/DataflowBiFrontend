@@ -34,7 +34,6 @@ export default function Sidebar() {
           </div>
         ))}
       </div>
-      <div className="footer-note">This demo uses local dummy data only.</div>
     </aside>
   )
 }

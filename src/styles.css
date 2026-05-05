@@ -162,6 +162,37 @@ body {
   background: rgba(255, 255, 255, 0.22);
 }
 
+/* Ensure logo image fits the container */
+.brand .logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border-radius: inherit;
+  display: block;
+}
+
+/* Standalone logo image (not inside DF container) */
+.brand-logo {
+  width: 96px;
+  height: auto;
+  object-fit: contain;
+  display: block;
+  border-radius: 10px;
+  padding: 6px 8px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.18);
+  box-shadow: 0 4px 12px rgba(11,97,214,0.12);
+}
+
+/* Responsive: scale down on smaller screens */
+@media (max-width: 720px) {
+  .brand-logo {
+    width: 64px;
+    height: auto;
+    padding: 4px;
+  }
+}
+
 .brand-text {
   display: flex;
   flex-direction: column;
