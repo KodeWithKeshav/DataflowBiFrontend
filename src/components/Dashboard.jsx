@@ -1,44 +1,14 @@
-import React, { useState } from 'react'
+import React from 'react'
 import dummy from '../data/dummy'
 // import KPICard from './KPICard'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import RightSideBar from './RightSideBar'
-import { analyseSelection } from '../api/api'
-import { createAnalysisRequest } from '../models/AnalysisRequestBody'
 import AnalysisChartRenderer from './AnalysisChartRender'
-import { setChartData, setActiveCharts } from '../store/chartReducer'
 import BorderGlow from './BorderGlow'
 
 
 export default function Dashboard(){
-  const [selectedCols, setSelectedCols] = React.useState([])
-  const dispatch = useDispatch();
-
   const activeTable = useSelector(state=>state.table.activeTable)
-
-  const columns = (activeTable && activeTable.columns) || [];
-
-  React.useEffect(() => {
-    // clear selected columns and chart data when switching tables
-    setSelectedCols([]);
-    dispatch(setChartData({ data: [], suggestedChartTypes: [], metaData: {} }));
-    dispatch(setActiveCharts([]));
-  }, [activeTable && activeTable.tableName]);
-
-
-  function toggleCol(columnName){
-    if(selectedCols.includes(columnName)){
-      setSelectedCols(prev=>prev.filter(column=>column !== columnName))
-    }else{
-      setSelectedCols(prev=>[...prev,columnName])
-    }
-  }
-
-  async function handleApplySelection(){
-    const requestBody = createAnalysisRequest(activeTable,columns,selectedCols)
-    const data = await analyseSelection(requestBody);
-    dispatch(setChartData({...data}))
-  }
 
   // Show welcome state when no table is selected
   if (!activeTable || !activeTable.tableName) {
@@ -63,36 +33,6 @@ export default function Dashboard(){
     <section className="dashboard animate-fade-in">
       <div className="charts-row">
         <div>
-          <BorderGlow style={{marginBottom:16, height: 240}}>
-            <div className="controls">
-              <div className="controls-label">
-                <span className="material-symbols-rounded" style={{fontSize:18}}>view_column</span>
-                Columns
-              </div>
-              
-              <button className="btn-primary" onClick={handleApplySelection} style={{ marginLeft: 'auto' }}>
-                <span className="material-symbols-rounded" style={{fontSize:16}}>play_arrow</span>
-                Apply
-              </button>
-            </div>
-            <div className="column-chips" style={{ flex: 1, height: 'auto', maxHeight: 'none' }}>
-              {columns && columns.map(column=> (
-                <label 
-                  key={column.columnName} 
-                  className={`column-chip ${selectedCols.includes(column.columnName) ? 'active' : ''}`}
-                >
-                  <input 
-                    type="checkbox" 
-                    checked={selectedCols.includes(column.columnName)} 
-                    onChange={()=>toggleCol(column.columnName)} 
-                  />
-                  <span className="chip-dot"></span>
-                  <span>{column.columnName}</span>
-                </label>
-              ))}
-            </div>
-          </BorderGlow>
-
           <AnalysisChartRenderer />
           {/* <ChartCard title={`${measure||'Measure'} by ${dim||'Dimension'}`} data={chartData} xKey={dim} yKey={measure} type={chartType} /> */}
         </div>

@@ -1,7 +1,9 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from "react-redux";
-import { toggleActiveChart } from './../store/chartReducer'
+import { toggleActiveChart, setChartData, setActiveCharts } from './../store/chartReducer'
 import BorderGlow from './BorderGlow';
+import { analyseSelection } from '../api/api'
+import { createAnalysisRequest } from '../models/AnalysisRequestBody'
 
 function RightSideBar() {
     const dispatch = useDispatch();
@@ -9,6 +11,7 @@ function RightSideBar() {
     const selectedTableData = useSelector(state => state.table.activeTableRows);
     const suggestedCharts = useSelector(state => state.chart.suggestedCharts);
     const activeCharts = useSelector(state => state.chart.activeCharts || []);
+    const activeTable = useSelector(state => state.table.activeTable);
 
     // 1. Check if data exists and is not empty
     if (!selectedTableData || selectedTableData.length === 0) {
@@ -25,11 +28,65 @@ function RightSideBar() {
         );
     }
 
-    // 2. Extract column names from the first object keys
+    // 2. Extract column names from the first object keys (preview) and from active table metadata
     const columns = Object.keys(selectedTableData[0]);
+    const tableColumns = (activeTable && activeTable.columns) || [];
+
+    const [selectedCols, setSelectedCols] = useState([]);
+
+    useEffect(() => {
+        // clear selected columns and chart data when switching tables
+        setSelectedCols([]);
+        dispatch(setChartData({ data: [], suggestedChartTypes: [], metaData: {} }));
+        dispatch(setActiveCharts([]));
+    }, [activeTable && activeTable.tableName]);
+
+    function toggleCol(columnName){
+        if(selectedCols.includes(columnName)){
+            setSelectedCols(prev=>prev.filter(column=>column !== columnName))
+        } else {
+            setSelectedCols(prev=>[...prev,columnName])
+        }
+    }
+
+    async function handleApplySelection(){
+        if(!activeTable) return;
+        const requestBody = createAnalysisRequest(activeTable, tableColumns, selectedCols);
+        const data = await analyseSelection(requestBody);
+        dispatch(setChartData({...data}));
+    }
 
     return (
         <div className="animate-fade-in">
+            {/* Column selector moved to top of preview */}
+            <BorderGlow style={{marginBottom:16, height: 240}}>
+                <div className="controls">
+                    <div className="controls-label">
+                        <span className="material-symbols-rounded" style={{fontSize:18}}>view_column</span>
+                        Columns
+                    </div>
+                    <button className="btn-primary" onClick={handleApplySelection} style={{ marginLeft: 'auto' }}>
+                        <span className="material-symbols-rounded" style={{fontSize:16}}>play_arrow</span>
+                        Apply
+                    </button>
+                </div>
+                <div className="column-chips" style={{ flex: 1, height: 'auto', maxHeight: 'none' }}>
+                    {tableColumns && tableColumns.map(column=> (
+                        <label 
+                            key={column.columnName} 
+                            className={`column-chip ${selectedCols.includes(column.columnName) ? 'active' : ''}`}
+                        >
+                            <input 
+                                type="checkbox" 
+                                checked={selectedCols.includes(column.columnName)} 
+                                onChange={()=>toggleCol(column.columnName)} 
+                            />
+                            <span className="chip-dot"></span>
+                            <span>{column.columnName}</span>
+                        </label>
+                    ))}
+                </div>
+            </BorderGlow>
             <BorderGlow style={{ marginBottom: 16, height: 380 }}>
                 <div className="chart-card-header">
                     <div className="chart-card-title">
