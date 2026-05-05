@@ -7,6 +7,9 @@ import PieChartComponent from "./charts/PieChartComponent";
 import ScatterChartComponent from "./charts/ScatterChartComponent";
 import BorderGlow from "./BorderGlow";
 import HeatMapComponent from "./charts/HeatMapComponent";
+import DynamicAreaChart from "./charts/AreaChartComponent";
+import GaugeChartComponent from "./charts/GuageChartComponent";
+import DonutChartComponent from "./charts/DonutChartComponent";
 
 export default function AnalysisChartRenderer() {
   const activeTypes = useSelector(state => state.chart.activeCharts || []);
@@ -16,9 +19,11 @@ export default function AnalysisChartRenderer() {
     'STACKED_BAR': StackedBarChartComponent,
     'GROUPED_BAR': GroupedBarChartComponent, 
     'LINE': LineChartComponent, 
+    'AREA': DynamicAreaChart,
     'SCATTER_PLOT': ScatterChartComponent,
     'PIE': PieChartComponent,   
-    'HEATMAP': HeatMapComponent
+    'HEATMAP': HeatMapComponent,
+    'DONUT': DonutChartComponent
   };
 
   if (!activeTypes || activeTypes.length === 0) {

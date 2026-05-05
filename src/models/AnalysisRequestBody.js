@@ -37,7 +37,7 @@ export const createAnalysisRequest = (
     filters: [],
   };
 
-  if (dateColumns) {
+  if (dateColumns.length == 1) {
     requestBody["dateColumn"] = { columnName: dateColumns[0], by: "MONTH" }; // can be YEAR, DAY
   }
 
