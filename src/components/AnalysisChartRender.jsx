@@ -6,6 +6,7 @@ import LineChartComponent from "./charts/LineChartComponent";
 import PieChartComponent from "./charts/PieChartComponent";
 import ScatterChartComponent from "./charts/ScatterChartComponent";
 import BorderGlow from "./BorderGlow";
+import HeatMapComponent from "./charts/HeatMapComponent";
 
 export default function AnalysisChartRenderer() {
   const activeTypes = useSelector(state => state.chart.activeCharts || []);
@@ -17,6 +18,7 @@ export default function AnalysisChartRenderer() {
     'LINE': LineChartComponent, 
     'SCATTER_PLOT': ScatterChartComponent,
     'PIE': PieChartComponent,   
+    'HEATMAP': HeatMapComponent
   };
 
   if (!activeTypes || activeTypes.length === 0) {

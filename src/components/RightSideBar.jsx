@@ -13,17 +13,15 @@ function RightSideBar() {
     const activeCharts = useSelector(state => state.chart.activeCharts || []);
     const activeTable = useSelector(state => state.table.activeTable);
 
-    /* ✅ ALL HOOKS MUST BE HERE (TOP OF COMPONENT) */
+   
     const [selectedCols, setSelectedCols] = useState([]);
 
     useEffect(() => {
-        // clear selected columns and chart data when switching tables
         setSelectedCols([]);
         dispatch(setChartData({ data: [], suggestedChartTypes: [], metaData: {} }));
         dispatch(setActiveCharts([]));
     }, [activeTable?.tableName, dispatch]);
 
-    /* ✅ SAFE EARLY RETURN AFTER HOOKS */
     if (!selectedTableData || selectedTableData.length === 0) {
         return (
             <BorderGlow className="animate-fade-in" animated={true}>
@@ -40,7 +38,6 @@ function RightSideBar() {
         );
     }
 
-    /* ✅ SAFE DATA DERIVATION */
     const columns = Object.keys(selectedTableData[0] || {});
     const tableColumns = activeTable?.columns || [];
 
@@ -61,7 +58,6 @@ function RightSideBar() {
 
     return (
         <div className="animate-fade-in">
-            {/* Column selector */}
             <BorderGlow style={{ marginBottom: 16, height: 240 }}>
                 <div className="controls">
                     <div className="controls-label">
@@ -100,7 +96,6 @@ function RightSideBar() {
                 </div>
             </BorderGlow>
 
-            {/* Data Preview */}
             <BorderGlow style={{ marginBottom: 16, height: 380 }}>
                 <div className="chart-card-header">
                     <div className="chart-card-title">
