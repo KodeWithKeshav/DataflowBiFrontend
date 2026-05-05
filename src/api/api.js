@@ -26,7 +26,6 @@ export async function fetchTableRows(tableName) {
 export async function analyseSelection(analysisBody) {
   try {
     const response = await axios.post(`${baseUrl}/analyze`, analysisBody);
-    console.log(response.data);
     return response.data;
   } catch (error) {
     console.log(error);

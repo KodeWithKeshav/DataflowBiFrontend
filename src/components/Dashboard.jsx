@@ -15,7 +15,6 @@ export default function Dashboard(){
   const dispatch = useDispatch();
 
   const activeTable = useSelector(state=>state.table.activeTable)
-  const analyzedData = useSelector(state=>state.chart);
 
   const columns = (activeTable && activeTable.columns) || [];
 
@@ -37,10 +36,8 @@ export default function Dashboard(){
 
   async function handleApplySelection(){
     const requestBody = createAnalysisRequest(activeTable,columns,selectedCols)
-    console.log("request body: ",requestBody)
     const data = await analyseSelection(requestBody);
     dispatch(setChartData({...data}))
-    console.log(data)
   }
 
   // Show welcome state when no table is selected
@@ -64,12 +61,6 @@ export default function Dashboard(){
 
   return (
     <section className="dashboard animate-fade-in">
-      {/* <div className="kpi-row">
-        <KPICard title={`Table: ${table}`} value={`${rows.length} rows`} />
-        <KPICard title={measure ? `Total ${measure}` : 'Total'} value={measure ? total : '-'} />
-        <KPICard title={measure ? `Avg ${measure}` : 'Avg'} value={measure ? avg : '-'} />
-      </div> */}
-
       <div className="charts-row">
         <div>
           <BorderGlow style={{marginBottom:16, height: 240}}>

@@ -7,7 +7,7 @@ function RightSideBar() {
     const dispatch = useDispatch();
 
     const selectedTableData = useSelector(state => state.table.activeTableRows);
-    const suggestedCharts = useSelector(state => state.chart.suggestedChartTypes);
+    const suggestedCharts = useSelector(state => state.chart.suggestedCharts);
     const activeCharts = useSelector(state => state.chart.activeCharts || []);
 
     // 1. Check if data exists and is not empty
@@ -75,12 +75,12 @@ function RightSideBar() {
                     {suggestedCharts && suggestedCharts.length > 0 ? (
                         suggestedCharts.map(chart=> (
                             <button 
-                                key={chart} 
-                                onClick={()=>dispatch(toggleActiveChart(chart))} 
-                                className={`suggestion-pill ${activeCharts.includes(chart) ? 'active' : ''}`}
+                                key={chart.chartType} 
+                                onClick={()=>dispatch(toggleActiveChart(chart.chartType))} 
+                                className={`suggestion-pill ${activeCharts.includes(chart.chartType) ? 'active' : ''}`}
                             >
                                 <span className="material-symbols-rounded">insights</span>
-                                {chart}
+                                {chart.chartType}
                             </button>
                         ))
                     ) : (

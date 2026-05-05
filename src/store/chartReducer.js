@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   data: [],
-  suggestedChartTypes: [],
+  suggestedCharts: [],
   metaData: {},
   activeCharts: [],
 };
@@ -13,7 +13,7 @@ const chartSlice = createSlice({
   reducers: {
     setChartData: (state, action) => {
       state.data = action.payload.data;
-      state.suggestedChartTypes = action.payload.suggestedChartTypes;
+      state.suggestedCharts = action.payload.suggestedCharts;
       state.metaData = action.payload.metaData;
     },
     setActiveCharts: (state, action) => {
@@ -29,5 +29,6 @@ const chartSlice = createSlice({
   },
 });
 
-export const { setChartData, setActiveCharts, toggleActiveChart } = chartSlice.actions;
+export const { setChartData, setActiveCharts, toggleActiveChart } =
+  chartSlice.actions;
 export default chartSlice.reducer;
