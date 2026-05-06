@@ -1341,5 +1341,23 @@ body {
 }
 
 /* ---------- Utility: Apply Button (legacy compat) ---------- */
-.apply-button {
+.tableContainer {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px; /* Increased gap for more breathing room */
+}
+
+.tableContainer .name {
+  width: 120px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.tableContainer .rowCount {
+  width: 20px;
+  flex-shrink: 0; 
+  text-align: right;
 }

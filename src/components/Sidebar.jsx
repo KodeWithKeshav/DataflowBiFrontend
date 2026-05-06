@@ -30,7 +30,11 @@ export default function Sidebar() {
             <div className="table-icon">
               <span className="material-symbols-rounded" style={{ fontSize: 16 }}>table_chart</span>
             </div>
-            {table.tableName}
+            <div className='tableContainer' >
+              <div className='name'>{table.tableName}</div>
+              <div className='rowCount'>{table.rowCount}</div>
+            </div>
+             
           </div>
         ))}
       </div>

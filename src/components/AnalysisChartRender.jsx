@@ -8,8 +8,9 @@ import ScatterChartComponent from "./charts/ScatterChartComponent";
 import BorderGlow from "./BorderGlow";
 import HeatMapComponent from "./charts/HeatMapComponent";
 import DynamicAreaChart from "./charts/AreaChartComponent";
-import GaugeChartComponent from "./charts/GuageChartComponent";
 import DonutChartComponent from "./charts/DonutChartComponent";
+import BubbleChartComponent from "./charts/BubbleChartComponent";
+import CorrelationMatrix from "./charts/CorrelationMatrixComponent";
 
 export default function AnalysisChartRenderer() {
   const activeTypes = useSelector(state => state.chart.activeCharts || []);
@@ -23,7 +24,9 @@ export default function AnalysisChartRenderer() {
     'SCATTER_PLOT': ScatterChartComponent,
     'PIE': PieChartComponent,   
     'HEATMAP': HeatMapComponent,
-    'DONUT': DonutChartComponent
+    'DONUT': DonutChartComponent,
+    'BUBBLE_CHART':BubbleChartComponent,
+    'CORRELATION_MATRIX': CorrelationMatrix
   };
 
   if (!activeTypes || activeTypes.length === 0) {

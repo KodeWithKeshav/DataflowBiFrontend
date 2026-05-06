@@ -49,7 +49,7 @@ function isNetworkError(error) {
     return (
       error.code === "ERR_NETWORK" ||
       error.code === "ECONNREFUSED" ||
-      error.code === "ECONNABORTED" ||       // timeout
+      error.code === "ECONNABORTED" || // timeout
       error.code === "ERR_BAD_REQUEST" ||
       error.message?.includes("Network Error") ||
       error.message?.includes("timeout")
