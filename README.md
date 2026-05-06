@@ -19,3 +19,8 @@ npm run dev
 Open http://localhost:3000
 
 This demo uses Vite + React + Recharts and local dummy data in `src/data/dummy.js`.
+
+Exporting charts to PDF
+-----------------------
+
+Click the "Export PDF" button in any chart card header to download a PDF of that chart. This feature uses `html2canvas` and `jspdf` — install dependencies with `npm install` before running.

@@ -1,5 +1,7 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, LineChart, Line, PieChart, Pie, Cell, Legend } from 'recharts'
+import html2canvas from 'html2canvas'
+import { jsPDF } from 'jspdf'
 
 const COLORS = ['#1473e6','#0b61d6','#6fb1ff','#a8d1ff','#3b8def']
 
@@ -14,16 +16,42 @@ const customTooltipStyle = {
 }
 
 export default function ChartCard({title,data,xKey,yKey,type='bar'}){
+  const chartRef = useRef(null)
+
+  const exportPdf = async () => {
+    try {
+      const el = chartRef.current
+      if(!el) return
+      const canvas = await html2canvas(el, {scale:2})
+      const imgData = canvas.toDataURL('image/png')
+      const pdf = new jsPDF('landscape', 'pt', 'a4')
+      const pdfWidth = pdf.internal.pageSize.getWidth()
+      const pdfHeight = pdf.internal.pageSize.getHeight()
+      const imgProps = pdf.getImageProperties(imgData)
+      const imgWidth = pdfWidth
+      const imgHeight = (imgProps.height * imgWidth) / imgProps.width
+      const marginY = (pdfHeight - imgHeight) / 2
+      pdf.addImage(imgData, 'PNG', 0, marginY > 0 ? marginY : 0, imgWidth, imgHeight)
+      const safeTitle = (title || 'chart').replace(/[^a-z0-9\-_. ]/gi, '_')
+      pdf.save(`${safeTitle}.pdf`)
+    } catch (err) {
+      console.error('Export PDF failed', err)
+    }
+  }
+
   return (
     <div className="chart-card">
       <div className="chart-card-header">
         <div className="chart-card-title">{title}</div>
-        <span className="section-badge">
-          <span className="material-symbols-rounded" style={{fontSize:14}}>bar_chart</span>
-          {type}
-        </span>
+        <div style={{display:'flex',gap:8,alignItems:'center'}}>
+          <span className="section-badge">
+            <span className="material-symbols-rounded" style={{fontSize:14}}>bar_chart</span>
+            {type}
+          </span>
+          <button className="btn-export" onClick={exportPdf}>Export PDF</button>
+        </div>
       </div>
-      <div style={{height:320}}>
+      <div ref={chartRef} style={{height:320}}>
         <ResponsiveContainer>
           {type==='bar' && (
             <BarChart data={data}>

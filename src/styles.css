@@ -405,6 +405,79 @@ body {
   text-align: center;
 }
 
+/* Export buttons */
+.btn-export,
+.btn-export-all {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border-radius: 10px;
+  border: 1px solid var(--border-light);
+  background: linear-gradient(180deg, #ffffff 0%, #f7fbff 100%);
+  color: var(--text-primary);
+  font-weight: 600;
+  font-size: 13px;
+  cursor: pointer;
+  transition: transform var(--duration-fast) var(--ease-out), box-shadow var(--duration-fast) var(--ease-out), background var(--duration-fast) var(--ease-out);
+}
+
+.btn-export:hover,
+.btn-export-all:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-sm);
+  background: linear-gradient(180deg, #ffffff 0%, #eef6ff 100%);
+}
+
+.btn-export:active,
+.btn-export-all:active {
+  transform: translateY(0);
+}
+
+.btn-export {
+  padding: 6px 10px;
+  border-radius: 8px;
+  font-size: 13px;
+}
+
+.btn-export-all {
+  background: linear-gradient(90deg, var(--blue-50) 0%, #eef6ff 100%);
+  border: 1px solid var(--blue-100);
+  color: var(--blue-600);
+}
+
+/* Simple modal */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(10,25,44,0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+.modal {
+  background: var(--panel);
+  padding: 20px;
+  width: 420px;
+  border-radius: 12px;
+  box-shadow: var(--shadow-lg);
+  border: 1px solid var(--border-light);
+}
+.modal-title {
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+.modal-body {
+  color: var(--text-muted);
+  margin-bottom: 16px;
+}
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
 /* ==============================================
    DASHBOARD
    ============================================== */
