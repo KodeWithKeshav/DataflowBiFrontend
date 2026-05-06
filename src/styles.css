@@ -405,6 +405,47 @@ body {
   text-align: center;
 }
 
+/* Export buttons */
+.btn-export,
+.btn-export-all {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border-radius: 10px;
+  border: 1px solid var(--border-light);
+  background: linear-gradient(180deg, #ffffff 0%, #f7fbff 100%);
+  color: var(--text-primary);
+  font-weight: 600;
+  font-size: 13px;
+  cursor: pointer;
+  transition: transform var(--duration-fast) var(--ease-out), box-shadow var(--duration-fast) var(--ease-out), background var(--duration-fast) var(--ease-out);
+}
+
+.btn-export:hover,
+.btn-export-all:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-sm);
+  background: linear-gradient(180deg, #ffffff 0%, #eef6ff 100%);
+}
+
+.btn-export:active,
+.btn-export-all:active {
+  transform: translateY(0);
+}
+
+.btn-export {
+  padding: 6px 10px;
+  border-radius: 8px;
+  font-size: 13px;
+}
+
+.btn-export-all {
+  background: linear-gradient(90deg, var(--blue-50) 0%, #eef6ff 100%);
+  border: 1px solid var(--blue-100);
+  color: var(--blue-600);
+}
+
 /* ==============================================
    DASHBOARD
    ============================================== */
