@@ -5,7 +5,6 @@ export const createAnalysisRequest = (
   aggregationType = "SUM",
   filters = [],
 ) => {
-  console.log(columns);
   const dimensions = columns
     .filter((column) => selectedColumns.includes(column.columnName))
     .filter((column) => column.logicalType === "STRING")

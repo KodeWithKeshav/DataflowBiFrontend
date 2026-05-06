@@ -49,6 +49,7 @@ export default function AnalysisChartRenderer() {
           return (
             <div
               key={type}
+              className="h-full w-full"
               style={{
                 paddingBottom: isLast ? 8 : 24,
                 marginBottom: isLast ? 0 : 24,
@@ -65,7 +66,7 @@ export default function AnalysisChartRenderer() {
                   {type}
                 </span>
               </div>
-              <div style={{ height: '360px', width: '100%' }}>
+              <div className="h-full w-full p-5">
                 {SelectedChart ? <SelectedChart /> : (
                   <div style={{ padding: 16 }}>Unsupported chart: {type}</div>
                 )}

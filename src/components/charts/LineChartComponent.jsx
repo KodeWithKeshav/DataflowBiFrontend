@@ -4,6 +4,7 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Responsi
 
 const IndependentLineChart = () => {
   const data = useSelector(state => state.chart.data);
+  const tableColumns = useSelector(state =>state.table.activeTable.columns);
 
   if (!data || data.length === 0) {
     return <div className="p-6 text-slate-500 italic">No data available for analysis...</div>;
@@ -11,11 +12,17 @@ const IndependentLineChart = () => {
 
   const allKeys = Object.keys(data[0]);
   const measureKeys = allKeys.filter(key => key !== 'date_period');
+  const dateKeys = allKeys.filter(key=> key == 'date_period')
+
+  const xKey = dateKeys[0];
+  const yKey = measureKeys[0]
+
+ ;
 
   const colors = ["#818cf8", "#34d399", "#f59e0b", "#ef4444", "#8b5cf6"];
 
   return (
-    <div className="w-full bg-white p-6 rounded-2xl shadow-lg border border-slate-100">
+    <div className="w-full h-full bg-white p-6 rounded-2xl shadow-lg border border-slate-100">
  
       <div className="mb-6">
         <h3 className="text-xl font-bold text-slate-800">Dynamic Trend Analysis</h3>
@@ -26,7 +33,7 @@ const IndependentLineChart = () => {
         <ResponsiveContainer width="100%" height="100%">
           <LineChart 
             data={data} 
-            margin={{ top: 10, right: 20, left: 0, bottom: 0 }}
+            margin={{ top: 20, right: 30, left: 40, bottom: 40 }}
           >
             <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
          
@@ -36,6 +43,14 @@ const IndependentLineChart = () => {
               tickLine={false} 
               tick={{fill: '#64748b', fontSize: 12}} 
               dy={10} 
+              label={{ 
+                  value: xKey.toUpperCase().replace(/_/g, ' '), 
+                  position: 'insideBottom', 
+                  offset: -20, 
+                  fill: '#64748b',
+                  fontSize: 14,
+                  fontWeight: 'bold'
+                }}
             />
             
             <YAxis 
@@ -43,6 +58,14 @@ const IndependentLineChart = () => {
               tickLine={false} 
               tick={{fill: '#64748b', fontSize: 12}} 
               dx={-10}
+              label={{ 
+                  value: yKey.toUpperCase().replace(/_/g, ' '), 
+                  position: 'insideBottom', 
+                  offset: -60, 
+                  fill: '#64748b',
+                  fontSize: 14,
+                  fontWeight: 'bold'
+                }}
             />
             
             <Tooltip 

@@ -14,6 +14,10 @@ const DynamicAreaChart = () => {
 
   const allKeys = Object.keys(data[0]);
   const measureKeys = allKeys.filter(key => key !== 'date_period');
+  const dateKeys = allKeys.filter(key=> key == 'date_period')
+
+  const xKey = measureKeys[0]
+  const yKey = dateKeys[0]
 
   const colorMap = [
     { id: 'colorUv', stroke: '#818cf8', fill: '#818cf8' }, 
@@ -33,7 +37,7 @@ const DynamicAreaChart = () => {
         <ResponsiveContainer width="100%" height="100%">
           <AreaChart 
             data={data} 
-            margin={{ top: 10, right: 20, left: 0, bottom: 0 }}
+            margin={{ top: 10, right: 20, left: 30, bottom: 30 }}
           >
             <defs>
               {measureKeys.map((key, index) => {
@@ -55,6 +59,14 @@ const DynamicAreaChart = () => {
               tickLine={false} 
               tick={{fill: '#64748b', fontSize: 12}} 
               dy={10} 
+               label={{ 
+                  value: xKey.toUpperCase().replace(/_/g, ' '), 
+                  position: 'insideBottom', 
+                  offset: -20, 
+                  fill: '#64748b',
+                  fontSize: 14,
+                  fontWeight: 'bold'
+                }}
             />
             
             <YAxis 
@@ -62,6 +74,14 @@ const DynamicAreaChart = () => {
               tickLine={false} 
               tick={{fill: '#64748b', fontSize: 12}} 
               dx={-10}
+              label={{ 
+                  value: yKey.toUpperCase().replace(/_/g, ' '), 
+                  position: 'insideBottom', 
+                  offset: -60, 
+                  fill: '#64748b',
+                  fontSize: 14,
+                  fontWeight: 'bold'
+                }}
             />
             
             <Tooltip 
@@ -82,7 +102,7 @@ const DynamicAreaChart = () => {
                   strokeWidth={3}
                   fillOpacity={1} 
                   fill={`url(#${colors.id})`} 
-                  stackId="1" // Remove this line if you want the areas to overlap instead of stack
+                  stackId="1" 
                 />
               );
             })}

@@ -5,6 +5,15 @@ function BarChartComponent() {
     const chartData = useSelector(state => state.chart.data);
     const metaData = useSelector(state => state.chart.metaData);
 
+    
+    // const chartMetaData = useSelector(state=>state.chart.suggestedCharts).filter(chart=>chart.chartType === 'BAR');
+    // const xAxisKey = chartMetaData.xAxisColumn;
+    // const yAxisKey = chartMetaData.yAxisColumn;
+
+    // console.log(xAxisKey, yAxisKey)
+
+    // if(!xAxisKey || !yAxisKey) return <div>Axis values are empty</div>
+
     if (!chartData || chartData.length === 0) return <div>No data available</div>;
 
     // Use yAxisKey for the legend label; fall back to "Value" if missing
@@ -20,8 +29,8 @@ function BarChartComponent() {
                     margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
                 >
                     <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey={metaData.xAxisKey} />
-                    <YAxis />
+                    <XAxis dataKey={metaData.xAxisKey}   />
+                    <YAxis   />
                     <Tooltip />
                     <Legend />
                     <Bar dataKey="value" fill="#8884d8" name={legendLabel} />
