@@ -130,22 +130,29 @@ function RightSideBar() {
             activeTable, tableColumns, selectedCols, aggregationType, validFilters
         );
         const chartPromise = analyseSelection(requestBody);
-
-        // Fetch KPIs in parallel
-        dispatch(setKpiLoading());
-        const kpiPromise = fetchKpis(activeTable.tableName, selectedCols)
-            .then(res => {
-                dispatch(setKpis(res.kpis || []));
-            })
-            .catch(err => {
-                dispatch(setKpiError(err?.message || 'Failed to fetch KPIs'));
-            });
-
         // Await chart data
         const data = await chartPromise;
         dispatch(setChartData({ ...data }));
+        // Clear any previously selected/active charts so user must pick from new suggestions
+        dispatch(setActiveCharts([]));
+        
+    }
 
-        await kpiPromise;
+    async function handleGenerateKpis() {
+        if (!activeTable) return;
+
+        if (!selectedCols || selectedCols.length === 0) {
+            dispatch(setKpiError('No columns selected for KPI generation'));
+            return;
+        }
+
+        dispatch(setKpiLoading());
+        try {
+            const res = await fetchKpis(activeTable.tableName, selectedCols);
+            dispatch(setKpis(res.kpis || []));
+        } catch (err) {
+            dispatch(setKpiError(err?.message || 'Failed to fetch KPIs'));
+        }
     }
 
     const activeFilterCount = getValidFilters().length;
@@ -178,16 +185,29 @@ function RightSideBar() {
                         </select>
                     </div>
 
-                    <button
-                        className="btn-primary"
-                        onClick={handleApplySelection}
-                        style={{ marginLeft: 'auto' }}
-                    >
-                        <span className="material-symbols-rounded" style={{ fontSize: 16 }}>
-                            play_arrow
-                        </span>
-                        Apply
-                    </button>
+                    <div style={{ marginLeft: 'auto', display: 'flex', gap: 8 }}>
+                        <button
+                            className="btn-secondary"
+                            onClick={handleGenerateKpis}
+                            disabled={selectedCols.length === 0}
+                            title={selectedCols.length === 0 ? 'Select columns to enable' : 'Generate KPIs for selected columns'}
+                        >
+                            <span className="material-symbols-rounded" style={{ fontSize: 16 }}>
+                                analytics
+                            </span>
+                            Generate KPI
+                        </button>
+
+                        <button
+                            className="btn-primary"
+                            onClick={handleApplySelection}
+                        >
+                            <span className="material-symbols-rounded" style={{ fontSize: 16 }}>
+                                play_arrow
+                            </span>
+                            Apply
+                        </button>
+                    </div>
                 </div>
 
                 <div className="column-chips" style={{ height: 100 }}>
