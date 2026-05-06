@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { useDispatch, useSelector } from "react-redux";
 import { toggleActiveChart, setChartData, setActiveCharts } from './../store/chartReducer';
 import { setKpiLoading, setKpis, setKpiError, clearKpis } from './../store/kpiReducer';
@@ -135,6 +136,10 @@ function RightSideBar() {
         dispatch(setChartData({ ...data }));
         // Clear any previously selected/active charts so user must pick from new suggestions
         dispatch(setActiveCharts([]));
+        // Show modal if no suggested charts were returned
+        if (!data || !data.suggestedCharts || data.suggestedCharts.length === 0) {
+            setShowNoChartsModal(true);
+        }
         
     }
 
@@ -156,6 +161,7 @@ function RightSideBar() {
     }
 
     const activeFilterCount = getValidFilters().length;
+    const [showNoChartsModal, setShowNoChartsModal] = useState(false);
 
     return (
         <div className="animate-fade-in">
@@ -227,6 +233,18 @@ function RightSideBar() {
                     ))}
                 </div>
             </BorderGlow>
+            {showNoChartsModal && createPortal(
+                <div className="modal-backdrop" onClick={() => setShowNoChartsModal(false)}>
+                    <div className="modal" onClick={e => e.stopPropagation()}>
+                        <div className="modal-title">No charts available</div>
+                        <div className="modal-body">No charts are possible for the selected columns. Try selecting different columns or adjusting filters.</div>
+                        <div className="modal-actions">
+                            <button className="btn-primary" onClick={() => setShowNoChartsModal(false)}>OK</button>
+                        </div>
+                    </div>
+                </div>,
+                document.body
+            )}
 
             {/* Filters */}
             <BorderGlow style={{ marginBottom: 16 }}>
