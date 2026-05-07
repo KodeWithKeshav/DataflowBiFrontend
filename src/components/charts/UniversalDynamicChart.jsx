@@ -1,6 +1,7 @@
 import React, { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import { generateRandomColor } from '../../utils/Colours';
 
 const UniversalDynamicChart = ({ chartType = "GROUPED" }) => {
     const rawData = useSelector(state => state.chart.data);
@@ -77,7 +78,10 @@ const UniversalDynamicChart = ({ chartType = "GROUPED" }) => {
     if (error) return <div className="p-4 text-red-500 bg-red-50 rounded-xl">Error processing chart data.</div>;
     if (!processedData || processedData.length === 0) return <div className="p-4 text-slate-500">No appropriate data present to render chart.</div>;
 
-    const colors = ["#6366f1", "#10b981", "#f43f5e", "#f59e0b", "#8b5cf6"];
+    const colors = [];
+     rawData.forEach(() => {
+            colors.push(generateRandomColor())
+        });
     const isStacked = chartType === "STACKED";
 
     return (
@@ -104,7 +108,7 @@ const UniversalDynamicChart = ({ chartType = "GROUPED" }) => {
                                 key={key}
                                 dataKey={key}
                                 stackId={isStacked ? "stack" : undefined} 
-                                fill={colors[index % colors.length]}
+                                fill={colors[index]}
                                 barSize={isStacked ? 40 : 20}
                             />
                         ))}

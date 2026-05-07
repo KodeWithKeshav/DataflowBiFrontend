@@ -1,6 +1,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import { generateRandomColor } from '../../utils/Colours';
 
 const IndependentLineChart = () => {
   const data = useSelector(state => state.chart.data);
@@ -19,7 +20,11 @@ const IndependentLineChart = () => {
 
  ;
 
-  const colors = ["#818cf8", "#34d399", "#f59e0b", "#ef4444", "#8b5cf6"];
+  const colors = [];
+
+  data.forEach(() => {
+    colors.push(generateRandomColor())
+  });
 
   return (
     <div className="w-full h-full bg-white p-6 rounded-2xl shadow-lg border border-slate-100">
@@ -86,7 +91,7 @@ const IndependentLineChart = () => {
                 type="monotone"
                 name={key.replace(/_/g, ' ').toUpperCase()} 
                 dataKey={key} 
-                stroke={colors[index % colors.length]} 
+                stroke={colors[index]} 
                 strokeWidth={3}
                 dot={{ r: 4, strokeWidth: 2 }}
                 activeDot={{ r: 6, strokeWidth: 0 }}

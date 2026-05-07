@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import { 
   PieChart, Pie, Cell, Tooltip, Legend, ResponsiveContainer 
 } from 'recharts';
+import { generateRandomColor } from '../../utils/Colours';
 
 const SqlDonutChart = () => {
   // 1. Fetching data from your Redux store
@@ -22,7 +23,10 @@ const SqlDonutChart = () => {
   const valueKey = keys.find(k => typeof data[0][k] === 'number') || keys[1];
 
   // 3. Professional Color Palette
-  const COLORS = ["#6366f1", "#10b981", "#f59e0b", "#3b82f6", "#8b5cf6", "#f43f5e"];
+  const COLORS = [];
+  data.forEach(() => {
+    COLORS.push(generateRandomColor())
+  });
 
   // 4. Calculate Total for the center display
   const total = data.reduce((sum, item) => sum + Number(item[valueKey]), 0);
@@ -51,7 +55,7 @@ const SqlDonutChart = () => {
               {data.map((entry, index) => (
                 <Cell 
                    key={`cell-${index}`} 
-                   fill={COLORS[index % COLORS.length]} 
+                   fill={COLORS[index]} 
                    className="hover:opacity-80 transition-opacity cursor-pointer"
                 />
               ))}

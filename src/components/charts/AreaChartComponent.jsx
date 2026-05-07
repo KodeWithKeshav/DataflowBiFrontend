@@ -4,6 +4,7 @@ import {
   AreaChart, Area, XAxis, YAxis, CartesianGrid, 
   Tooltip, Legend, ResponsiveContainer 
 } from 'recharts';
+import { generateRandomColor } from '../../utils/Colours';
 
 const DynamicAreaChart = () => {
   const data = useSelector(state => state.chart.data);
@@ -20,9 +21,9 @@ const DynamicAreaChart = () => {
   const yKey = dateKeys[0]
 
   const colorMap = [
-    { id: 'colorUv', stroke: '#818cf8', fill: '#818cf8' }, 
-    { id: 'colorPv', stroke: '#34d399', fill: '#34d399' }, 
-    { id: 'colorAmt', stroke: '#f59e0b', fill: '#f59e0b' } 
+    { id: 'colorUv', stroke: generateRandomColor(), fill: generateRandomColor(), }, 
+    { id: 'colorPv', stroke: generateRandomColor(), fill: generateRandomColor(),}, 
+    { id: 'colorAmt', stroke: generateRandomColor(), fill:generateRandomColor(), } 
   ];
 
   return (

@@ -1,8 +1,14 @@
-export const COLORS = [
-  "#1473e6",
-  "#0b61d6",
-  "#6fb1ff",
-  "#cfe7ff",
-  "#ff7300",
-  "#387908",
-];
+export const generateRandomColor = () => {
+  // Generates values between 0-200 to keep them slightly darker (better for white backgrounds)
+  const r = Math.floor(Math.random() * 200)
+    .toString(16)
+    .padStart(2, "0");
+  const g = Math.floor(Math.random() * 200)
+    .toString(16)
+    .padStart(2, "0");
+  const b = Math.floor(Math.random() * 200)
+    .toString(16)
+    .padStart(2, "0");
+
+  return `#${r}${g}${b}`;
+};

@@ -1,10 +1,17 @@
 import { useSelector } from 'react-redux';
 import { PieChart, Pie, Cell, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import { generateRandomColor } from '../../utils/Colours';
 
-const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884d8', '#82ca9d', '#ffc658', '#ff7c7c'];
+const COLORS = [];
+
+
 
 function PieChartComponent() {
     const chartData = useSelector(state => state.chart.data);
+
+    chartData.forEach(() => {
+        COLORS.push(generateRandomColor())
+    });
 
     const chartMetaData = useSelector(state=>state.chart.suggestedCharts).filter(chart=>chart.chartType === 'BAR');
     const xAxisKey = chartMetaData[0].xAxisColumn 
@@ -29,7 +36,7 @@ function PieChartComponent() {
                         label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
                     >
                         {chartData.map((entry, index) => (
-                            <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                            <Cell key={`cell-${index}`} fill={COLORS[index]} />
                         ))}
                     </Pie>
                     <Tooltip />
