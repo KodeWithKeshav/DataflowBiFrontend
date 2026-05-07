@@ -1253,6 +1253,7 @@ body {
   justify-content: space-between;
   align-items: flex-start;
   gap: var(--space-sm);
+  padding-right: 40px; /* reserve space so close button doesn't overlap the icon */
 }
 
 .kpi-card-label {
@@ -1267,6 +1268,40 @@ body {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+/* Close (remove) button for KPI cards */
+.kpi-card-close {
+  position: absolute;
+  top: 8px;
+  right: 6px; /* nudged slightly further to the right corner */
+  width: 28px;
+  height: 28px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: background 120ms ease, color 120ms ease, transform 120ms ease;
+  z-index: 2;
+}
+
+.kpi-card-close:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(20,115,230,0.12);
+}
+
+.kpi-card-close:hover {
+  background: rgba(0,0,0,0.06);
+  color: var(--text);
+  transform: scale(1.04);
+}
+
+.kpi-card-close .material-symbols-rounded {
+  font-size: 16px;
 }
 
 .kpi-card-icon {

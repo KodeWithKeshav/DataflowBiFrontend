@@ -1,4 +1,6 @@
 import React from 'react';
+import { useDispatch } from 'react-redux';
+import { removeKpi } from '../store/kpiReducer';
 
 // Map KPI function names to Material Symbols icons and colors
 const KPI_META = {
@@ -48,6 +50,7 @@ function formatFunctionLabel(fnName) {
 
 export default function KPICard({ columnName, fnName, value, index = 0 }) {
   const meta = KPI_META[fnName] || KPI_META.COUNT;
+  const dispatch = useDispatch();
 
   return (
     <div
@@ -57,6 +60,16 @@ export default function KPICard({ columnName, fnName, value, index = 0 }) {
       {/* Header row */}
       <div className="kpi-card-header-row">
         <span className="kpi-card-label">{columnName}</span>
+
+        <button
+          className="kpi-card-close"
+          title="Remove KPI"
+          onClick={(e) => { e.stopPropagation(); dispatch(removeKpi(index)); }}
+          aria-label={`Remove KPI ${columnName}`}
+        >
+          <span className="material-symbols-rounded">close</span>
+        </button>
+
         <div
           className="kpi-card-icon"
           style={{ background: meta.bg, color: meta.color }}

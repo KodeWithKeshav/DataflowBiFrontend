@@ -28,9 +28,14 @@ const kpiSlice = createSlice({
       state.loading = false;
       state.error = null;
     },
+    removeKpi: (state, action) => {
+      const idx = action.payload;
+      if (typeof idx === 'number') {
+        state.kpis = state.kpis.filter((_, i) => i !== idx);
+      }
+    },
   },
 });
-
-export const { setKpiLoading, setKpis, setKpiError, clearKpis } =
+export const { setKpiLoading, setKpis, setKpiError, clearKpis, removeKpi } =
   kpiSlice.actions;
 export default kpiSlice.reducer;
