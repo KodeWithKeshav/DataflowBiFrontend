@@ -5,7 +5,10 @@ const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884d8', '#82ca9d'
 
 function PieChartComponent() {
     const chartData = useSelector(state => state.chart.data);
-    const metaData = useSelector(state => state.chart.metaData);
+
+    const chartMetaData = useSelector(state=>state.chart.suggestedCharts).filter(chart=>chart.chartType === 'BAR');
+    const xAxisKey = chartMetaData[0].xAxisColumn 
+    const yAxisKey = chartMetaData[0].yAxisColumn 
 
     if (!chartData || chartData.length === 0) return <div>No data available</div>;
 
@@ -19,8 +22,8 @@ function PieChartComponent() {
                         cx="50%"
                         cy="50%"
                         labelLine={false}
-                        nameKey={metaData.xAxisKey} 
-                        dataKey="value"
+                        nameKey={xAxisKey} 
+                        dataKey={yAxisKey}
                         outerRadius={120}
                         fill="#8884d8"
                         label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}

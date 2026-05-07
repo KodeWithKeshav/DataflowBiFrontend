@@ -34,6 +34,7 @@ function RightSideBar() {
     const [aggregationType, setAggregationType] = useState("SUM");
     const [filters, setFilters] = useState([]);
     const [filtersExpanded, setFiltersExpanded] = useState(false);
+    const [showNoChartsModal, setShowNoChartsModal] = useState(false);
 
     useEffect(() => {
         // clear selected columns, chart data, and KPIs when switching tables
@@ -161,7 +162,6 @@ function RightSideBar() {
     }
 
     const activeFilterCount = getValidFilters().length;
-    const [showNoChartsModal, setShowNoChartsModal] = useState(false);
 
     return (
         <div className="animate-fade-in">

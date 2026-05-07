@@ -6,18 +6,14 @@ function BarChartComponent() {
     const metaData = useSelector(state => state.chart.metaData);
 
     
-    // const chartMetaData = useSelector(state=>state.chart.suggestedCharts).filter(chart=>chart.chartType === 'BAR');
-    // const xAxisKey = chartMetaData.xAxisColumn;
-    // const yAxisKey = chartMetaData.yAxisColumn;
-
-    // console.log(xAxisKey, yAxisKey)
-
-    // if(!xAxisKey || !yAxisKey) return <div>Axis values are empty</div>
+    const chartMetaData = useSelector(state=>state.chart.suggestedCharts).filter(chart=>chart.chartType === 'BAR');
+    const xAxisKey = chartMetaData[0].xAxisColumn 
+    const yAxisKey = chartMetaData[0].yAxisColumn 
 
     if (!chartData || chartData.length === 0) return <div>No data available</div>;
 
     // Use yAxisKey for the legend label; fall back to "Value" if missing
-    const legendLabel = metaData?.yAxisKey
+    const legendLabel = yAxisKey
         ? metaData.yAxisKey.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase())
         : 'Value';
 
@@ -29,11 +25,11 @@ function BarChartComponent() {
                     margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
                 >
                     <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey={metaData.xAxisKey}   />
-                    <YAxis   />
+                    <XAxis dataKey={xAxisKey}   />
+                    <YAxis dataKey={yAxisKey}  />
                     <Tooltip />
                     <Legend />
-                    <Bar dataKey="value" fill="#8884d8" name={legendLabel} />
+                    <Bar dataKey={yAxisKey} fill="#8884d8" name={legendLabel} />
                 </BarChart>
             </ResponsiveContainer>
         </div>
