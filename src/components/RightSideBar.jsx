@@ -7,7 +7,7 @@ import BorderGlow from './BorderGlow';
 import { analyseSelection, fetchKpis } from '../api/api';
 import { createAnalysisRequest } from '../models/AnalysisRequestBody';
 
-const AGGREGATION_TYPES = ["SUM", "AVG", "COUNT", "MIN", "MAX"];
+const AGGREGATION_TYPES = ["SUM", "AVG", "COUNT", "MIN", "MAX","NONE"];
 
 const FILTER_OPERATORS = [
     { value: "EQUALS",       label: "Equals" },

@@ -8,17 +8,11 @@ import {
 
 const baseUrl = `${import.meta.env.VITE_BASE_URL}`;
 
-/**
- * Axios instance with a short timeout so the UI falls back to mock data
- * almost instantly when the backend is not running.
- */
 const api = axios.create({
   baseURL: baseUrl,
   timeout: 5000, // 5 seconds — fail fast when backend is down
 });
 
-// ── Mock-mode tracking ────────────────────────────────────────
-// Reactive flag so the UI can show a "Demo Mode" banner.
 let _isMockMode = false;
 const _listeners = new Set();
 
@@ -39,10 +33,6 @@ function setMockMode(value) {
   }
 }
 
-/**
- * Helper: returns true if the error is a network/connection failure
- * (i.e. backend is not running), NOT a server-side error.
- */
 function isNetworkError(error) {
   // No response received at all (server unreachable)
   if (!error.response) {
@@ -91,6 +81,9 @@ export async function fetchTableRows(tableName) {
 }
 
 export async function analyseSelection(analysisBody) {
+  if (!analysisBody) {
+    return;
+  }
   try {
     const response = await api.post("/analyze", analysisBody);
     setMockMode(false);
